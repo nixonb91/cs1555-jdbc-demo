@@ -10,8 +10,8 @@ allows the application to send dynamic SQL (Structured Query Language) statement
 include the creation of tables, modification of tables, and querying the tables for analysis. Your tasks will be to
 store data for the *DataBrew* coffee chain by completing the necessary TODOs to learn how to connect to a relational
 database from Java and how to perform simple database queries. Recall that *DataBrew* consists of Stores, Coffees, and
-Receipts. You will implement the `findAll`, `findByStoreNumber`, `findByStoreType`, `findByCityAndState` methods of
-`StoreQueryHelper`.
+Receipts. You will implement the `findAll`, `findByStoreNumber`, `findByStoreType`, `findByCityAndState`, `createStore`, 
+`buildStoreFromRow` methods of `StoreQueryHelper`.
 
 ## Exercise
 
@@ -53,7 +53,8 @@ not run (assuming your password isn't password), and say that password authentic
        important note is the URL when connecting to the DBMS, which can be swapped out depending on the database. The
        URL always begins with `jdbc` followed by the DBMS being used, in our case `postgresql`, and other specifications for
        connecting to the DBMS (e.g., host, port, etc.). In our case, postgres is deployed locally, and we want to connect to the default database `postgres`. The second argument to the connection is always a
-       Properties object that specifies additional connection requirements such as a username and password. We need to go ahead and update the password.
+       Properties object that specifies additional connection requirements such as a username and password.
+     2) We need to update the schema to match the schema we set while creating our tables. In this case, the schema is `'recitation'`.
      2) With the connection setup, the next few lines initialize some helpful classes for querying our Postgres database,
        storing results from querying the database, and a simple menu for user interaction.
 
@@ -75,8 +76,7 @@ not run (assuming your password isn't password), and say that password authentic
 
 8) The last `TODO` comment for the `uniqueStoreNames` method is to call a function defined in the `coffee_shop.sql` file. Remember, functions can be called by using `SELECT`.
 
-9) The last step is to verify that your code is working correctly using `./gradlew run` and to submit your code for the
-   exercise on the Gradescope for the course.
+9) The last step is to verify that your code is working correctly using `./gradlew run`.
 
 ## Conclusion
 
