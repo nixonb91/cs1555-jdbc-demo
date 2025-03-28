@@ -4,6 +4,7 @@
  * and provides common simple queries that might be used.
  *
  * @author Brian T. Nixon
+ * @author Maanya Shanker
  */
 
 package cs1555.dbdemo;

@@ -3,6 +3,7 @@
  * a Postgres database.
  *
  * @author Brian T. Nixon
+ * @author Maanya Shanker
  */
 package cs1555.dbdemo;
 
