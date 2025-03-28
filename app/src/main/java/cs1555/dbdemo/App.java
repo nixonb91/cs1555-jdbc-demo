@@ -24,6 +24,7 @@ public class App {
          */
         Properties props = new Properties();
         props.setProperty("user", "postgres");
+        props.setProperty("escapeSyntaxCallMode", "callIfNoReturn");
         // TODO: Update Password to your postgres password (should be your pitt id if you followed instructions...)
         props.setProperty("password", "password");
         try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", props);
