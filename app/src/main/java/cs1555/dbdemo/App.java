@@ -25,7 +25,7 @@ public class App {
         props.setProperty("user", "postgres");
         // TODO: Update Password to your postgres password (should be your pitt id if you followed instructions...)
         props.setProperty("password", "password");
-        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/postgres", props);
+        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", props);
              Scanner scanner = new Scanner(System.in)) {
 
             // TODO: Set the schema to recitation
