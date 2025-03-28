@@ -6,9 +6,12 @@
  */
 package cs1555.dbdemo;
 
-import java.sql.*;
-import java.util.Properties;
+import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.SQLException;
 import java.util.List;
+import java.util.Properties;
 import java.util.Scanner;
 
 public class App {
@@ -20,12 +23,13 @@ public class App {
          */
         Properties props = new Properties();
         props.setProperty("user", "postgres");
-        props.setProperty("password", "postgres");
-        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5432/postgres", props);
+        // TODO: Update Password to your postgres password (should be your pitt id if you followed instructions...)
+        props.setProperty("password", "password");
+        try (Connection conn = DriverManager.getConnection("jdbc:postgresql://localhost:5433/postgres", props);
              Scanner scanner = new Scanner(System.in)) {
 
-            // Set the schema
-            conn.setSchema("lecture");
+            // TODO: Set the schema to recitation
+            
             int menu = -1;
 
             // Helper Classes for querying the Postgres database using JDBC
@@ -157,6 +161,31 @@ public class App {
                         queryResults = receiptHelper.findReceiptInDateRange(lowerDate, upperDate);
                         printResultRows(queryResults);
                         break;
+                    case 15:
+                        System.out.println("You've selected to create a new store.\n" +
+                                "Please enter the new store number ");
+                        int storeNumber = scanner.nextInt();
+                        scanner.nextLine();
+                        System.out.println("Please enter the new store name ");
+                        String name = scanner.nextLine();
+                        System.out.println("Please enter the new store type ");
+                        String type = scanner.nextLine();
+                        System.out.println("Please enter the new store street ");
+                        String street = scanner.nextLine();
+                        System.out.println("Please enter the new store city ");
+                        String city = scanner.nextLine();
+                        System.out.println("Please enter the new store state ");
+                        String state = scanner.nextLine();
+
+                        storeHelper.createStore(storeNumber, name, type, street, city, state);
+                        System.out.println("Successfully added!");
+                        break;
+                    case 16:
+                        System.out.println("You've selected to find all unique store names\n");
+
+                        List<String> results = storeHelper.uniqueStoreNames();
+                        printStringResults(results);
+                        break;
                     case 0:
                         System.out.println("Goodbye!");
                         break;
@@ -190,6 +219,8 @@ public class App {
                 | (12) Find All Receipts for a given coffeeID          |
                 | (13) Find All Receipts within a given quantity range |
                 | (14) Find All Receipts within a given date range     |
+                | (15) Create a new Store                              |
+                | (16) Find all unique Store names                     |
                 +---------------------------------------------------+""";
         System.out.println(menuString);
     }
@@ -221,6 +252,24 @@ public class App {
             System.out.println(tableName);
         }
         for (RowInterface queryResult : queryResults) {
+            System.out.println(queryResult);
+        }
+        System.out.println("\n");
+    }
+
+    private static void printStringResults(List<String> queryResults) {
+        if (queryResults == null) {
+            return;
+        }
+        // Print the name of the table beforehand
+        if (!queryResults.isEmpty()) {
+            String tableName = """
+                        +----------------------------------------------------------------+
+                        |                             Store                              |
+                        +----------------------------------------------------------------+""";
+            System.out.println(tableName);
+        }
+        for (String queryResult : queryResults) {
             System.out.println(queryResult);
         }
         System.out.println("\n");

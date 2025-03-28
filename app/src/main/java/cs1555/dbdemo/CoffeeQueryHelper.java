@@ -8,7 +8,11 @@
 
 package cs1555.dbdemo;
 
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,29 +22,6 @@ public class CoffeeQueryHelper {
 
     public CoffeeQueryHelper(Connection conn) {
         this.databaseConnection = conn;
-        try (Statement st = this.databaseConnection.createStatement()) {
-            st.setQueryTimeout(QUERY_TIMEOUT); // set timeout to 30 seconds
-            st.executeUpdate("DROP TABLE IF EXISTS COFFEE CASCADE;");
-            st.executeUpdate("CREATE TABLE COFFEE (coffeeID integer PRIMARY KEY, " +
-                    "name varchar(50)," +
-                    "intensity integer," +
-                    "price numeric(5,2));");
-            // Can execute each update as a single statement
-            st.executeUpdate("INSERT INTO COFFEE VALUES (1, 'Espresso', 10, 1.45);");
-            st.executeUpdate("INSERT INTO COFFEE VALUES (2, 'Latte', 4, 3.65);");
-
-            // Or execute multiple updates within a single statement
-            st.executeUpdate("INSERT INTO COFFEE VALUES (3, 'Drip Coffee', 8, 1.15)," +
-                    "(4, 'Cappuccino', 5, 2.79)," +
-                    "(5, 'Macchiato', 5, 3.30)," +
-                    "(6, 'Cold Brew', 7, 3.10)," +
-                    "(7, 'Hot Chocolate', 1, 1.59)," +
-                    "(8, 'Americano', 7, 2.05)," +
-                    "(9, 'Mocha', 3, 2.65)," +
-                    "(10, 'Frappuccino', 2, 2.89)");
-        } catch (SQLException e) {
-            handleError(e);
-        }
     }
 
     /**

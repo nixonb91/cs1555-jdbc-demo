@@ -8,11 +8,9 @@
 
 package cs1555.dbdemo;
 
+import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
-import java.sql.PreparedStatement;
-import java.sql.Connection;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,54 +28,23 @@ public class StoreQueryHelper {
      */
     public StoreQueryHelper(Connection conn) {
         this.databaseConnection = conn;
-        try (Statement st = databaseConnection.createStatement()) {
-            st.setQueryTimeout(QUERY_TIMEOUT); // set timeout to 30 seconds
-            st.executeUpdate("DROP TABLE IF EXISTS STORE CASCADE;");
-            st.executeUpdate("CREATE TABLE STORE (storeNumber integer PRIMARY KEY, " +
-                    "name varchar(50)," +
-                    "storeType varchar(50)," +
-                    "street varchar(50)," +
-                    "city varchar(50)," +
-                    "state varchar(20));");
-            // Can execute each update as a single statement
-            st.executeUpdate("INSERT INTO STORE VALUES (1, 'Test Store', 'sitting', 'Forbes', 'Pittsburgh', 'Pennsylvania');");
-            st.executeUpdate("INSERT INTO STORE VALUES (2, 'Test Store2', 'sitting', 'Fifth', 'Pittsburgh', 'Pennsylvania');");
-
-            // Or execute multiple updates within a single statement
-            st.executeUpdate("INSERT INTO STORE VALUES (3, 'Test Store 3', 'drive-through', 'Lincoln', 'Seattle', 'Washington')," +
-                    "(4, 'Test Store 4', 'digital', 'Pike', 'Los Angeles', 'California')," +
-                    "(5, 'Test Store 5', 'digital', 'Park Place', 'Hollywood', 'California')," +
-                    "(6, 'Test Store 6', 'sitting', 'Madison Square', 'New York City', 'New York')," +
-                    "(7, 'Test Store 7', 'digital', 'Washington Ave', 'New York City', 'New York')," +
-                    "(8, 'Test Store 8', 'drive-through', 'Lincoln Place', 'Albany', 'New York')," +
-                    "(9, 'Test Store 9', 'digital', 'Forbes', 'Pittsburgh', 'Pennsylvania')," +
-                    "(10, 'Test Store 10', 'drive-through', 'Boulevard of the Allies', 'Pittsburgh', 'Pennsylvania');");
-        } catch (SQLException e) {
-            handleError(e);
-        }
+        
     }
 
     /**
+     * TODO fill in this method
      * A helper function for querying all rows within a single table
      *
      * @return A List of all Stores in the Postgres database
      */
     protected List<RowInterface> findAll() {
         List<RowInterface> storeList = new ArrayList<>();
-        try (Statement st = databaseConnection.createStatement()) {
-            st.setQueryTimeout(QUERY_TIMEOUT); // set timeout to 30 seconds
-            ResultSet rs = st.executeQuery("SELECT * FROM STORE;");
-            while (rs.next()) {
-                Store currentStore = buildStoreFromRow(rs);
-                storeList.add(currentStore);
-            }
-        } catch (SQLException e) {
-            handleError(e);
-        }
+        // add your code here
         return storeList;
     }
 
     /**
+     * TODO fill in this method
      * A helper function for querying the Stores with the specified
      * storeNumber
      *
@@ -86,21 +53,12 @@ public class StoreQueryHelper {
      */
     protected List<RowInterface> findByStoreNumber(int storeNumber) {
         List<RowInterface> storeList = new ArrayList<>();
-        try (PreparedStatement st = databaseConnection.prepareStatement("SELECT * FROM STORE WHERE storeNumber = ?")) {
-            st.setQueryTimeout(QUERY_TIMEOUT);
-            st.setInt(1, storeNumber);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Store currentStore = buildStoreFromRow(rs);
-                storeList.add(currentStore);
-            }
-        } catch (SQLException e) {
-            handleError(e);
-        }
+        // add your code here
         return storeList;
     }
 
     /**
+     * TODO fill in this method
      * A helper function for querying the Stores with the specified
      * storeNumber
      *
@@ -109,24 +67,13 @@ public class StoreQueryHelper {
      */
     protected List<RowInterface> findByStoreType(String storeType) {
         List<RowInterface> storeList = new ArrayList<>();
-        try (PreparedStatement st = databaseConnection.prepareStatement("SELECT * " +
-                                                                                "FROM STORE " +
-                                                                                "WHERE storeType = ?")) {
-            st.setQueryTimeout(QUERY_TIMEOUT);
-            st.setString(1, storeType);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Store currentStore = buildStoreFromRow(rs);
-                storeList.add(currentStore);
-            }
-        } catch (SQLException e) {
-            handleError(e);
-        }
+        // add your code here
         return storeList;
     }
 
     /**
-     * A helper function for querying the Stores with the specified
+     * TODO fill in this method
+     *  A helper function for querying the Stores with the specified
      * city and state
      *
      * @param city The city that the queried rows should have
@@ -136,21 +83,36 @@ public class StoreQueryHelper {
      */
     protected List<RowInterface> findByCityAndState(String city, String state) {
         List<RowInterface> storeList = new ArrayList<>();
-        try (PreparedStatement st = databaseConnection.prepareStatement("SELECT * " +
-                                                                                "FROM STORE " +
-                                                                                "WHERE city = ?" +
-                                                                                "AND state = ?")) {
-            st.setQueryTimeout(QUERY_TIMEOUT);
-            st.setString(1, city);
-            st.setString(2, state);
-            ResultSet rs = st.executeQuery();
-            while (rs.next()) {
-                Store currentStore = buildStoreFromRow(rs);
-                storeList.add(currentStore);
-            }
-        } catch (SQLException e) {
-            handleError(e);
-        }
+        // add your code here
+        return storeList;
+    }
+
+     /**
+     * TODO fill in this method
+     * A helper function for adding a new store.
+     *
+     * @param storeNumber The storeNumber of the store that should be added to the database
+     * @param name The name of the store that should be added to the database
+     * @param storeType The storeType that should be added to the database
+     * @param street The street of the store that should be added to the database
+     * @param city The city that should be added to the database
+     * @param state The state that should be added to the database
+     * @throws SQLException when the ResultSet is closed or another exception occurs
+     *                      such as trying to access a column that is not part of the ResultSet
+     */
+    protected void createStore(int storeNumber, String name, String storeType, String street, String city, String state) throws SQLException {
+        // add your code here
+    }
+
+    /**
+     * A helper function for querying the unique store names
+     *
+     * @return A list of all Store names in the Postgres database with the specified
+     *          city and state
+     */
+    protected List<String> uniqueStoreNames() {
+        List<String> storeList = new ArrayList<>();
+        // add your code here
         return storeList;
     }
 
@@ -171,6 +133,8 @@ public class StoreQueryHelper {
                 rs.getString("city"),
                 rs.getString("state"));
     }
+
+   
 
     /**
      * A helper function for handling errors that prints the error message,
